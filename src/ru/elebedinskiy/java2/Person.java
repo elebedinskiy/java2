@@ -36,6 +36,15 @@ public class Person implements Members{
         System.out.println("Человек " + getName() + " пробежал");
     }
 
+    public void run(Object obstacles){
+        if (obstacles instanceof Treadmill){
+            if (((Treadmill) obstacles).getLength() <= getRunMax()){
+                System.out.println("Человек " + getName() + " бегом преодолел препятствие");
+                setCountObstacles(1);
+            }
+        }
+    }
+
     public void jump(){
         System.out.println("Человек " + getName() + " прыгнул");
     }

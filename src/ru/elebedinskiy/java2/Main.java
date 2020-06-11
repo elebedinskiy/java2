@@ -9,10 +9,8 @@ public class Main {
 
         // создали массив участников
         Members[] members = new Members[3];
-        Running[] runners = new Running[members.length];
-        Jumping[] jumpers = new Jumping[members.length];
 
-        members[0] = new Cat("Барсик", 150, 2);
+        members[0] = new Cat("Барсик", 50, 2);
         //members[1] = new Cat("Мурзик", 55, 2.5f);
         //members[1] = new Robot("Девид");
         members[1] = new Cat("Муська", 45, 1.1f);
@@ -38,10 +36,9 @@ public class Main {
         if (members[0] instanceof Cat){
             ((Cat) members[0]).run(obstacles[0]);
         }
-        //if (members[2] instanceof Person){
-            //members[2].run(obstacles[0]);
-          //  members[2].setCountObstacles(1);
-        //}
+        if (members[2] instanceof Person){
+            ((Person) members[2]).run(obstacles[0]);
+        }
         members[0].info();
         members[2].info();
 

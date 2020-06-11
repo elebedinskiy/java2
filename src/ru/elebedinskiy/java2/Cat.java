@@ -43,7 +43,7 @@ public class Cat implements Members{
     public void run(Object obstacles){
         if (obstacles instanceof Treadmill){
             if (((Treadmill) obstacles).getLength() <= getRunMax()){
-                System.out.println("Кот " + getName() + " пробежал препятствие");
+                System.out.println("Кот " + getName() + " бегом преодолел препятствие");
                 setCountObstacles(1);
             }
         }
