@@ -17,4 +17,8 @@ public class Wall  implements Obstacles{
         return height;
     }
 
+    public void info(){
+        System.out.println("Стена " + getName() + ", высота: " + getHeight());
+    }
+
 }

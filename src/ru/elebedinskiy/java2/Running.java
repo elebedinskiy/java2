@@ -1,5 +1,11 @@
 package ru.elebedinskiy.java2;
 
 public interface Running {
-    void run();
+
+    // бег
+    boolean run();
+
+    // бег с препятствиями
+    boolean run(Object object);
+
 }

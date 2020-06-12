@@ -2,7 +2,7 @@ package ru.elebedinskiy.java2;
 
 public class Cat implements Members{
     private String name;
-    private int countObstacles = 0;
+    private int countObstacles;
     private float runMax;
     private float jumpMax;
 
@@ -36,30 +36,40 @@ public class Cat implements Members{
         return countObstacles;
     }
 
-    public void run(){
-        System.out.println("Кот " + getName() + " пробежал препятствие");
+    public boolean run(){
+        System.out.println("Кот " + getName() + " пробежал");
+        return true;
     }
 
-    public void run(Object obstacles){
-        if (obstacles instanceof Treadmill){
-            if (((Treadmill) obstacles).getLength() <= getRunMax()){
-                System.out.println("Кот " + getName() + " бегом преодолел препятствие");
-                setCountObstacles(1);
+    public boolean run(Object object){
+        if (object instanceof Treadmill){
+            if (((Treadmill) object).getLength() <= getRunMax()){
+                System.out.println("Кот " + getName() + " пробежал препятствие");
+                return true;
+            } else if (((Treadmill) object).getLength() > getRunMax()){
+                System.out.println("Кот " + getName() + " не смог пробежать препятствие");
+                return false;
             }
         }
+        return false;
     }
 
-    public void jump(){
-        System.out.println("Кот " + getName() + " перепрыгнул препятствие");
+    public boolean jump(){
+        System.out.println("Кот " + getName() + " прыгнул");
+        return true;
     }
 
-    public void jump(Object object){
+    public boolean jump(Object object){
         if (object instanceof Wall){
             if (((Wall) object).getHeight() <= getJumpMax()){
                 System.out.println("Кот " + getName() + " перепрыгнул препятствие");
-                setCountObstacles(1);
+                return true;
+            } else if (((Wall) object).getHeight() > getJumpMax()){
+                System.out.println("Кот " + getName() + " не смог перепрыгнуть препятствие");
+                return false;
             }
         }
+        return false;
     }
 
     public void info(){

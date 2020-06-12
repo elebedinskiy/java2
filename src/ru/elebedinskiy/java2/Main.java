@@ -1,91 +1,76 @@
 package ru.elebedinskiy.java2;
 
-import java.lang.reflect.Member;
-import java.util.Random;
-
 public class Main {
 
     public static void main(String[] args) {
 
         // создали массив участников
-        Members[] members = new Members[3];
+        Members[] members = new Members[4];
 
-        members[0] = new Cat("Барсик", 50, 2);
-        //members[1] = new Cat("Мурзик", 55, 2.5f);
-        //members[1] = new Robot("Девид");
-        members[1] = new Cat("Муська", 45, 1.1f);
-        //members[2] = new Cat("Муська", 45, 2.1f);
-        members[2] = new Person("Василий", 200, 1.2f);
-
-        // выведем информацию об участниках
-        //runners[0].info();
+        members[0] = new Cat("Барсик", 55, 1.3f);
+        members[1] = new Cat("Муська", 45, 2.5f);
+        members[2] = new Person("Василий", 21100, 2);
+        members[3] = new Person("Алиса", 5000, 1.2f);
+        //members[4] = new Robot("Бишоп");
+        //members[5] = new Robot("R2D2");
 
         // создали массив препятствий
         Obstacles[] obstacles = new Obstacles[2];
-        //obstacles[0] = createTreadmill("Олимпия-1", 100);
-        obstacles[0] = new Treadmill("Олимпия-1", 100);
-        //obstacles[1] = createWall("Кирпичная стена", 1.5f);
+        obstacles[0] = new Treadmill("Олимпия-1", 50);
+        obstacles[1] = new Wall("Кирпичная", 1.5f);
 
-        //byte stages = 5; // количество этапов с препятствиями, например
+        printInfo(members); // выведем информацию об участниках
+        printInfo(obstacles); // выведем информацию о препятствиях
 
-        // вызов метода игры
-        //gameStage(members, obstacles);
-        members[0].info();
-        members[2].info();
+        System.out.println(); // с новой строки
 
-        if (members[0] instanceof Cat){
-            ((Cat) members[0]).run(obstacles[0]);
+        game(members, obstacles, 1); // проходим круги препятствий
+
+        System.out.println(); // с новой строки
+        printInfo(members);
+
+    }
+
+    public static void game (Members[] members, Obstacles[] obstacles, int stage){
+        setZeroCountObstacles(members);
+        for (int i = 0; i < stage; i++){
+            System.out.println("Круг №: " + (i + 1));
+            for (int a = 0; a < obstacles.length; a++){
+                for (int j = 0; j < members.length; j++){
+                    if (obstacles[a] instanceof Treadmill){
+                        members[j].run(obstacles[a]);
+                        if (members[j].run(obstacles[a]) == true){
+                            members[j].setCountObstacles(1);
+                        }
+                    }
+                    if (obstacles[a] instanceof Wall){
+                        members[j].jump(obstacles[a]);
+                        if (members[j].jump(obstacles[a]) == true){
+                            members[j].setCountObstacles(1);
+                        }
+                    }
+                }
+            }
+            System.out.println();
         }
-        if (members[2] instanceof Person){
-            ((Person) members[2]).run(obstacles[0]);
+    }
+
+    // метод обнулит счётчик пройденных препятствий участников
+    public static void setZeroCountObstacles(Members[] members){
+        for (int i = 0; i < members.length; i++){
+            members[i].setZeroCountOstacles();
         }
-        members[0].info();
-        members[2].info();
-
     }
 
-    // метод преодоления беговой дорожки
-    public static void gameStage(Object[] members, Obstacles[] obstacles){
-        //
-    }
-
-    // метод создаст нового кота, с произвольным ограничением на бег и прыжок
-    public static Cat createCat(String name){
-        float runMax;
-        float jumpMax;
-        Random random = new Random();
-        do {
-            runMax = random.nextFloat() * 1000;
-        } while (runMax >= 50.0f && runMax <= 100.0f);
-        do {
-            jumpMax = random.nextFloat() * 1000;
-        } while (jumpMax >= 1 && jumpMax <= 2.5f);
-        Cat cat = new Cat(name, runMax, jumpMax);
-        return cat;
-    }
-
-    /* метод создаст нового человека
-    public static Person createPerson(String name){
-        Person person = new Person(name);
-        return person;
-    }*/
-
-    // метод создаст нового робота
-    public static Robot createRobot(String name){
-        Robot robot = new Robot(name);
-        return robot;
-    }
-
-    // метод создаст новую беговую дорожку
-    public static Treadmill createTreadmill(String name, float length){
-        Treadmill treadmill = new Treadmill(name, length);
-        return treadmill;
-    }
-
-    // метод создаст новую стену
-    public static Wall createWall(String name, float height){
-        Wall wall = new Wall(name, height);
-        return wall;
+    public static void printInfo(Object[] object){
+        for (int i = 0; i < object.length; i++){
+            if (object[i] instanceof Obstacles){
+                ((Obstacles) object[i]).info();
+            }
+            if (object[i] instanceof Members){
+                ((Members) object[i]).info();
+            }
+        }
     }
 
 }

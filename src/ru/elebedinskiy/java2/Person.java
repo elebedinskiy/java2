@@ -2,7 +2,7 @@ package ru.elebedinskiy.java2;
 
 public class Person implements Members{
     private String name;
-    private int countObstacles = 0;
+    private int countObstacles;
     private float runMax;
     private float jumpMax;
 
@@ -32,21 +32,40 @@ public class Person implements Members{
         return name;
     }
 
-    public void run(){
+    public boolean run(){
         System.out.println("Человек " + getName() + " пробежал");
+        return true;
     }
 
-    public void run(Object obstacles){
-        if (obstacles instanceof Treadmill){
-            if (((Treadmill) obstacles).getLength() <= getRunMax()){
-                System.out.println("Человек " + getName() + " бегом преодолел препятствие");
-                setCountObstacles(1);
+    public boolean run(Object object){
+        if (object instanceof Treadmill){
+            if (((Treadmill) object).getLength() <= getRunMax()){
+                System.out.println("Человек " + getName() + " пробежал препятствие");
+                return true;
+            } else if (((Treadmill) object).getLength() > getRunMax()){
+                System.out.println("Человек " + getName() + " не смог пробежать препятствие");
+                return false;
             }
         }
+        return false;
     }
 
-    public void jump(){
+    public boolean jump(){
         System.out.println("Человек " + getName() + " прыгнул");
+        return true;
+    }
+
+    public boolean jump(Object object){
+        if (object instanceof Wall){
+            if (((Wall) object).getHeight() <= getJumpMax()){
+                System.out.println("Человек " + getName() + " перепрыгнул препятствие");
+                return true;
+            } else if (((Wall) object).getHeight() > getJumpMax()){
+                System.out.println("Человек " + getName() + " не смог перепрыгнуть препятствие");
+                return false;
+            }
+        }
+        return false;
     }
 
     public void setCountObstacles(int countObstacles){
