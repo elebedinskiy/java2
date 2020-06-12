@@ -36,36 +36,30 @@ public class Cat implements Members{
         return countObstacles;
     }
 
-    public boolean run(){
+    public void run(){
         System.out.println("Кот " + getName() + " пробежал");
-        return true;
     }
 
     public boolean run(Object object){
         if (object instanceof Treadmill){
             if (((Treadmill) object).getLength() <= getRunMax()){
-                System.out.println("Кот " + getName() + " пробежал препятствие");
                 return true;
             } else if (((Treadmill) object).getLength() > getRunMax()){
-                System.out.println("Кот " + getName() + " не смог пробежать препятствие");
                 return false;
             }
         }
         return false;
     }
 
-    public boolean jump(){
+    public void jump(){
         System.out.println("Кот " + getName() + " прыгнул");
-        return true;
     }
 
     public boolean jump(Object object){
         if (object instanceof Wall){
             if (((Wall) object).getHeight() <= getJumpMax()){
-                System.out.println("Кот " + getName() + " перепрыгнул препятствие");
                 return true;
             } else if (((Wall) object).getHeight() > getJumpMax()){
-                System.out.println("Кот " + getName() + " не смог перепрыгнуть препятствие");
                 return false;
             }
         }
@@ -73,6 +67,6 @@ public class Cat implements Members{
     }
 
     public void info(){
-        System.out.println("Кот по имени " + getName() + ", максимальная дистанция бега: " + getRunMax() + ", максимальная высота прыжка: " + getJumpMax() + ", пройденных препятствий: " + getCountObstacles());
+        System.out.println(getName() + ", максимальная дистанция бега: " + getRunMax() + ", максимальная высота прыжка: " + getJumpMax() + ", пройденных препятствий: " + getCountObstacles());
     }
 }
