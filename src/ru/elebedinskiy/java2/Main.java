@@ -45,7 +45,7 @@ public class Main {
                         System.out.println(members[i].getName() + " пробежал препятствие #" + (j + 1) + " " + obstacles[j].getName());
                         members[i].setCountObstacles(1);
                     } else if (members[i].run(obstacles[j]) == false){
-                        System.out.println(members[i].getName() + " не смог пробежать препятствие #" + (j + 1) + " " + obstacles[j].getName() + " и покидает нас.");
+                        System.out.println(members[i].getName() + " не смог пробежать препятствие #" + (j + 1) + " " + obstacles[j].getName() + ", сходит с дистанции и покидает нас.");
                         break;
                     }
                 }
@@ -54,7 +54,7 @@ public class Main {
                         System.out.println(members[i].getName() + " перепрыгнул препятствие #" + (j + 1) + " " + obstacles[j].getName());
                         members[i].setCountObstacles(1);
                     } else if (members[i].jump(obstacles[j]) == false){
-                        System.out.println(members[i].getName() + " не смог перепрыгнуть препятствие #" + (j + 1) + " " + obstacles[j].getName() + " и покидает нас.");
+                        System.out.println(members[i].getName() + " не смог перепрыгнуть препятствие #" + (j + 1) + " " + obstacles[j].getName() + ", сходит с дистанции и покидает нас.");
                         break;
                     }
                 }
@@ -62,6 +62,7 @@ public class Main {
         }
         System.out.println();
         printRezults(members);
+        winner(members);
     }
 
     // метод подсчёта итогов
@@ -70,6 +71,19 @@ public class Main {
         for (int i = 0; i < members.length; i++){
             System.out.println(members[i].getName() + " преодолел " + members[i].getCountObstacles() + " препятствий");
         }
+    }
+
+    // метод определения победителя
+    public static void winner(Members[] members) {
+        int i = 0;
+        int winnerId = members.length - 1 - i; // допустим, что последний элемент - победитель
+        do {
+            if (members[i].getCountObstacles() > members[winnerId].getCountObstacles()){
+                winnerId = i; // определим победителя
+            }
+            i++;
+        }while (i < members.length);
+        System.out.println(members[winnerId].getName() + " - победитель! Ура!");
     }
 
     // метод обнулит счётчик пройденных препятствий участников

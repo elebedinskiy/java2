@@ -67,6 +67,6 @@ public class Cat implements Members{
     }
 
     public void info(){
-        System.out.println(getName() + ", максимальная дистанция бега: " + getRunMax() + ", максимальная высота прыжка: " + getJumpMax() + ", пройденных препятствий: " + getCountObstacles());
+        System.out.println(getName() + ", максимальная дистанция бега: " + getRunMax() + ", максимальная высота прыжка: " + getJumpMax());
     }
 }
