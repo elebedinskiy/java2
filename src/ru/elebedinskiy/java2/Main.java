@@ -5,53 +5,51 @@ public class Main {
     public static void main(String[] args) {
 
         // создали массив участников
-        Members[] members = new Members[4];
+        Members[] members = new Members[2];
 
         members[0] = new Cat("Барсик", 55, 1.3f);
-        members[1] = new Cat("Муська", 45, 2.5f);
-        members[2] = new Person("Василий", 21100, 2);
-        members[3] = new Person("Алиса", 5000, 1.2f);
+        //members[1] = new Cat("Муська", 45, 2.5f);
+        members[1] = new Person("Василий", 1000, 2);
+        //members[3] = new Person("Алиса", 5000, 1.2f);
         //members[4] = new Robot("Бишоп");
         //members[5] = new Robot("R2D2");
 
         // создали массив препятствий
-        Obstacles[] obstacles = new Obstacles[2];
-        obstacles[0] = new Treadmill("Олимпия-1", 50);
-        obstacles[1] = new Wall("Кирпичная", 1.5f);
+        Obstacles[] obstacles = new Obstacles[4];
+        obstacles[0] = new Treadmill("Беговая дорожка Олимпия-1", 50);
+        obstacles[1] = new Wall("Кирпичная стена", 1.5f);
+        obstacles[2] = new Wall("Бетонная стена", 3);
+        obstacles[3] = new Treadmill("Тропинка в городском парке", 1500);
 
         printInfo(members); // выведем информацию об участниках
         printInfo(obstacles); // выведем информацию о препятствиях
 
-        System.out.println(); // с новой строки
+        System.out.println(); // начнём игру с новой строки
 
-        game(members, obstacles, 1); // проходим круги препятствий
-
-        System.out.println(); // с новой строки
+        game(members, obstacles); // проходим препятствия
         printInfo(members);
 
     }
 
-    public static void game (Members[] members, Obstacles[] obstacles, int stage){
+    public static void game(Members[] members, Obstacles[] obstacles) {
         setZeroCountObstacles(members);
-        for (int i = 0; i < stage; i++){
-            System.out.println("Круг №: " + (i + 1));
-            for (int a = 0; a < obstacles.length; a++){
-                for (int j = 0; j < members.length; j++){
-                    if (obstacles[a] instanceof Treadmill){
-                        members[j].run(obstacles[a]);
-                        if (members[j].run(obstacles[a]) == true){
-                            members[j].setCountObstacles(1);
-                        }
+        for (int i = 0; i < obstacles.length; i++) {
+            System.out.print("Препятствие № " + (i + 1) + ", ");
+            obstacles[i].info();
+            for (int j = 0; j < members.length; j++) {
+                if (obstacles[i] instanceof Treadmill) {
+                    if (members[j].run(obstacles[i]) == true) {
+                        members[j].setCountObstacles(1);
                     }
-                    if (obstacles[a] instanceof Wall){
-                        members[j].jump(obstacles[a]);
-                        if (members[j].jump(obstacles[a]) == true){
-                            members[j].setCountObstacles(1);
-                        }
+                }
+                if (obstacles[i] instanceof Wall) {
+                    if (members[j].jump(obstacles[i]) == true) {
+                        members[j].setCountObstacles(1);
                     }
                 }
             }
             System.out.println();
+            // сюда нужно добавить обработку: идёт дальше участник или не идёт
         }
     }
 

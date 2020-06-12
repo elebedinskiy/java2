@@ -18,7 +18,7 @@ public class Treadmill implements Obstacles{
     }
 
     public void info(){
-        System.out.println("Беговая дорожка " + getName() + ", дистанция: " + getLength());
+        System.out.println(getName() + ", дистанция: " + getLength());
     }
 
 }
