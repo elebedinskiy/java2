@@ -26,8 +26,7 @@ public class Main {
         System.out.println("\nИм предстоит преодолеть следующие препятствия:");
         printInfo(obstacles); // выведем информацию о препятствиях
 
-        System.out.println(); // начнём игру с новой строки
-        System.out.println("Поехали! ...");
+        System.out.println("\nПоехали! ...");
         game(members, obstacles); // проходим препятствия
 
     }
@@ -60,14 +59,13 @@ public class Main {
                 }
             }
         }
-        System.out.println();
         printRezults(members);
         winner(members);
     }
 
     // метод подсчёта итогов
     public static void printRezults(Members[] members){
-        System.out.println("Подведём итоги:");
+        System.out.println("\nПодведём итоги:");
         for (int i = 0; i < members.length; i++){
             System.out.println(members[i].getName() + " преодолел " + members[i].getCountObstacles() + " препятствий");
         }
@@ -83,7 +81,7 @@ public class Main {
             }
             i++;
         }while (i < members.length);
-        System.out.println(members[winnerId].getName() + " - победитель! Ура!");
+        System.out.println("\n" + members[winnerId].getName() + " - победитель! Ура!");
     }
 
     // метод обнулит счётчик пройденных препятствий участников
