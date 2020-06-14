@@ -1,5 +1,6 @@
 package ru.elebedinskiy.java2;
 
+import javax.naming.spi.ObjectFactoryBuilder;
 import java.util.Arrays;
 
 public class Main {
@@ -41,6 +42,11 @@ public class Main {
         System.out.println("\nРаботаем с третьим массивом");
         procArray(array3,size);
 
+        // для самопроверки
+        System.out.println("\nОбработанный массив #1: " + Arrays.deepToString(array1));
+        System.out.println("Обработанный массив #2: " + Arrays.deepToString(array2));
+        System.out.println("Обработанный массив #3: " + Arrays.deepToString(array3));
+
     }
 
     // метод валидации двумерного массива
@@ -80,19 +86,19 @@ public class Main {
     }
 
     // метод работы с целочисленными значениями элементов двумерного массива
-    public static int[][] MyArrayDataException (String[][] array){
-        int[][] procArray = new int[array.length][array.length]; // так как строка - неизменяемый тип данных, создадим новый массив
+    public static String[][] MyArrayDataException (String[][] array){
         for (int i = 0; i < array.length; i++){
             for (int j = 0; j < array[i].length; j++){
                 try {
-                    int a = Integer.parseInt(array[i][j].trim()); // приведём строку к целочисленному
-                    a++; // просуммируем
-                    procArray[i][j] = a;
+                    int a = Integer.parseInt(array[i][j]); // приведём строку к целочисленному
+                    a++;
+                    String b = "" + a; // вернём строковый тип
+                    array[i][j] = b; // запишем значение в текущий элемент массива
                 } catch (NumberFormatException e){
                     System.out.println("Ошибка! Элемент " + i + " х " + j + " не может быть обработан, так как содержит строку или символ");
                 }
             }
         }
-        return procArray;
+        return array;
     }
 }
