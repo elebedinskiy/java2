@@ -38,16 +38,13 @@ public class Main {
         procArray(array1,size);
         System.out.println("\nРаботаем со вторым массивом");
         procArray(array2,size);
-        System.out.println("\nРаботаем с третим массивом");
+        System.out.println("\nРаботаем с третьим массивом");
         procArray(array3,size);
 
-        System.out.println("\nОбработанный массив #1: " + Arrays.deepToString(array1));
-        System.out.println("Обработанный массив #2: " + Arrays.deepToString(array2));
-        System.out.println("Обработанный массив #3: " + Arrays.deepToString(array3));
     }
 
     // метод валидации двумерного массива
-    public static boolean validArray(String[][] array, int size) {
+    public static boolean MyArraySizeException(String[][] array, int size) {
         String[][] validArray = new String[size][size];
         try {
             for (int i = 0; i < size; i++) {
@@ -65,12 +62,37 @@ public class Main {
 
     // метод обработки двумерного массива
     public static void procArray(String[][] array, int size) {
-        if (validArray(array, size) == false){
+        if (MyArraySizeException(array, size) == false){
             System.out.println("Ошибка! Массив не соответствует размеру " + size + " х " + size + "!");
-        } else if (validArray(array, size) == true){
+        } else if (MyArraySizeException(array, size) == true){
             System.out.println("Массив размера " + size + " х " + size + ", работаем дальше...");
-            // тут пишем обработку
+            System.out.println("Обработанный массив: " + Arrays.deepToString(MyArrayDataException(array)));
         }
     }
 
+    private static int[][] sumProcArray(int[][] array) {
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                array[i][j]++;
+            }
+        }
+        return array;
+    }
+
+    // метод работы с целочисленными значениями элементов двумерного массива
+    public static int[][] MyArrayDataException (String[][] array){
+        int[][] procArray = new int[array.length][array.length]; // так как строка - неизменяемый тип данных, создадим новый массив
+        for (int i = 0; i < array.length; i++){
+            for (int j = 0; j < array[i].length; j++){
+                try {
+                    int a = Integer.parseInt(array[i][j].trim()); // приведём строку к целочисленному
+                    a++; // просуммируем
+                    procArray[i][j] = a;
+                } catch (NumberFormatException e){
+                    System.out.println("Ошибка! Элемент " + i + " х " + j + " не может быть обработан, так как содержит строку или символ");
+                }
+            }
+        }
+        return procArray;
+    }
 }
