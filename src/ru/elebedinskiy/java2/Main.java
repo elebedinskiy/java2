@@ -1,6 +1,5 @@
 package ru.elebedinskiy.java2;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
