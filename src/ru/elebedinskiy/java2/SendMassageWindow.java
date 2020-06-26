@@ -22,10 +22,10 @@ public class SendMassageWindow extends JFrame {
         //panelFieldAndButton.setLayout(new FlowLayout());
         //panelTextArea.setLayout(new FlowLayout());
 
-        JTextField fieldEnterText = new JTextField(47);
+        JTextField fieldEnterText = new JTextField(43);
         JButton buttonSendMessage = new JButton("Отправить");
 
-        JTextArea textLogMessageArea = new JTextArea("Добро пожаловать в чат. Напишите сообщение, нажмите кнопку 'Отправить' или клавишу 'Enter'\n", 20,57);
+        JTextArea textLogMessageArea = new JTextArea("Добро пожаловать в чат. Напишите сообщение, нажмите кнопку 'Отправить' или клавишу 'Enter'\n", 20,52);
         textLogMessageArea.setLineWrap(true); // перенос возможен;
         textLogMessageArea.setWrapStyleWord(true); // перенос по словам;
 
