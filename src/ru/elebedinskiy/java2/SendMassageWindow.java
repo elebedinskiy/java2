@@ -45,7 +45,7 @@ public class SendMassageWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Date dateNow = new Date();
-                SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
+                SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
                 if (!fieldEnterText.getText().equals("")){
                     textLogMessageArea.append(formatForDateNow.format(dateNow) + " > " + fieldEnterText.getText() + "\n");
                     fieldEnterText.setText("");
@@ -57,7 +57,7 @@ public class SendMassageWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Date dateNow = new Date();
-                SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy.MM.dd hh:mm:ss");
+                SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
                 if (!fieldEnterText.getText().equals("")){
                     textLogMessageArea.append(formatForDateNow.format(dateNow) + " > " + fieldEnterText.getText() + "\n");
                     fieldEnterText.setText("");
