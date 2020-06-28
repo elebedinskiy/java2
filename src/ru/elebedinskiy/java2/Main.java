@@ -51,18 +51,14 @@ public class Main {
         System.arraycopy(array, HALF, arr2, 0, HALF);
 
         // проведем вычисления в двух разных потоках
-        Thread t1 = new Thread(() -> new Main().calcArray(arr1));
+        Thread t1 = new Thread(() -> calcArray(arr1));
         t1.start();
-        Thread t2 = new Thread(() -> new Main().calcArray(arr2));
+        Thread t2 = new Thread(() -> calcArray(arr2));
         t2.start();
 
         // Обработаем ожидание завершения потоков
         try {
             t1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
             t2.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
