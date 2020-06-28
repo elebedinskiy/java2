@@ -30,7 +30,7 @@ public class Main {
             //System.out.println("Thread name: " + Thread.currentThread().getName()); // для проверки
             array[i] = (float)(array[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
         }
-        //System.out.println("Обработка завершена"); // для проверки
+        System.out.println("Обработка завершена"); // для проверки
     }
 
     public static void procArray1thread (float[] array){
@@ -51,8 +51,22 @@ public class Main {
         System.arraycopy(array, HALF, arr2, 0, HALF);
 
         // проведем вычисления в двух разных потоках
-        new Thread(() -> new Main().calcArray(arr1)).start();
-        new Thread(() -> new Main().calcArray(arr2)).start();
+        Thread t1 = new Thread(() -> new Main().calcArray(arr1));
+        t1.start();
+        Thread t2 = new Thread(() -> new Main().calcArray(arr2));
+        t2.start();
+
+        // Обработаем ожидание завершения потоков
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            t2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // склеим массив обратно в один целый
         System.arraycopy(arr1, 0, array, 0, HALF);
