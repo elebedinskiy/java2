@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ChatSenderWindow">
+    <output-path>$PROJECT_DIR$/out/artifacts/ChatSenderWindow</output-path>
+    <root id="archive" name="ChatSenderWindow.jar" />
+  </artifact>
+</component>
