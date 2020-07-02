@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class EchoServer {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         Socket socket = connect();
 
@@ -28,15 +28,17 @@ public class EchoServer {
                 e.printStackTrace();
             }
         }).start();
-
     }
 
-    public static Socket connect () throws IOException {
+    public static Socket connect () {
         Socket socket = null;
-        ServerSocket serverSocket = new ServerSocket(8189);
-        System.out.println("Server is running, waiting for connection ...");
-        socket = serverSocket.accept();
-        System.out.println("Client connected");
+        try (ServerSocket serverSocket = new ServerSocket(8189)){
+            System.out.println("Сервер запущен, ожидается подключение клиента ...");
+            socket = serverSocket.accept();
+            System.out.println("Клиент подключился");
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         return socket;
     }
 
@@ -45,11 +47,15 @@ public class EchoServer {
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         while (true) {
             String str = in.readUTF();
-            if (str.equals("/end")) {
-                break;
+            // предусмотрим завершение сервера с клиента
+            if (str.equals("/exit")) {
+                System.out.println("Работа сервера завершена!");
+                out.writeUTF("/exit");
+                System.exit(0);
             }
-            System.out.println("Message from remote client > " + str);
-            out.writeUTF("Echo from server > " + str);
+            System.out.println("Клиент > " + str);
+            out.writeUTF("Сервер Эхо > " + str);
+            out.flush();
         }
     }
 
@@ -58,19 +64,15 @@ public class EchoServer {
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         while (true) {
             String str = scanner.nextLine();
-            // вот этот if можно удалить
-            if (str.equals("/end")) {
-                System.out.println("Type message on server is stop!");
-                scanner.close();
-                break;
-            }
+            // предусмотрим завершение сервера с сервера
             if (str.equals("/exit")) {
-                System.out.println("Server shut down !!!");
-                out.writeUTF("Server shut down !!!");
+                System.out.println("Работа сервера завершена!");
+                out.writeUTF("/exit");
                 System.exit(0);
             }
-            System.out.println("Type on server > " + str);
-            out.writeUTF("Type on server > " + str);
+            System.out.println("Сервер > " + str);
+            out.writeUTF("Сервер > " + str);
+            out.flush();
         }
     }
 
