@@ -39,7 +39,7 @@ public class ClientHandler {
         }
     }
 
-    public void authentication() throws IOException {
+    public void authentication() throws IOException, NullPointerException {
         while (true) {
             String str = in.readUTF();
             if (str.startsWith("/auth")) {
@@ -49,8 +49,11 @@ public class ClientHandler {
                     if (!myServer.isNickBusy(nick)) {
                         sendMsg("/authok " + nick);
                         name = nick;
-                        myServer.broadcastMsg(name + " зашел в чат");
                         myServer.subscribe(this);
+                        myServer.broadcastMsg(name + " зашел в чат");
+
+                        myServer.sendUserList(); // разошлём обновлённый список пользователей;
+
                         return;
                     } else {
                         sendMsg("Учетная запись уже используется");
@@ -69,8 +72,14 @@ public class ClientHandler {
             if (strFromClient.equals("/end")) {
                 return;
             }
-
-            myServer.broadcastMsg(name, strFromClient);
+            if (strFromClient.startsWith("/w ")){
+                String[] str = strFromClient.split(" ", 3);
+                myServer.broadcastMsgPrivate(name, str[1], str[2]);
+                strFromClient = "";
+            }
+            if (strFromClient != "") {
+                myServer.broadcastMsg(name, strFromClient);
+            }
         }
     }
 
@@ -85,6 +94,7 @@ public class ClientHandler {
     public void closeConnection() {
         myServer.unsubscribe(this);
         myServer.broadcastMsg(name + " вышел из чата");
+        myServer.sendUserList(); // разошлём обновлённый список пользователей;
         try {
             in.close();
         } catch (IOException e) {

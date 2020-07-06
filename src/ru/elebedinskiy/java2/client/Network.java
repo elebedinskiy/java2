@@ -1,10 +1,13 @@
 package ru.elebedinskiy.java2.client;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.io.Closeable;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Network implements Closeable {
     private Socket socket;
@@ -15,6 +18,7 @@ public class Network implements Closeable {
     private Callback callOnAuthenticated;
     private Callback callOnException;
     private Callback callOnCloseConnection;
+    private ObservableList<String> userlist;
 
     public void setCallOnMsgReceived(Callback callOnMsgReceived) {
         this.callOnMsgReceived = callOnMsgReceived;
@@ -41,6 +45,20 @@ public class Network implements Closeable {
         }
     }
 
+    public ObservableList<String> getUserList () {
+        return userlist;
+    }
+
+    public void setUserlist (String msg) {
+        userlist = null;
+        String[] list = msg.split(" ");
+        ArrayList<String> nicklist = new ArrayList<>();
+        for (int i = 1; i < list.length; i++){
+            nicklist.add(list[i] + " ");
+        }
+        userlist = FXCollections.observableArrayList(nicklist);
+    }
+
     public void connect() {
         if (socket != null && !socket.isClosed()) {
             return;
@@ -50,6 +68,7 @@ public class Network implements Closeable {
             socket = new Socket("localhost", 8189);
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
+
             Thread clientListenerThread = new Thread(() -> {
                 try {
                     while (true) {
@@ -63,10 +82,17 @@ public class Network implements Closeable {
                     }
                     while (true) {
                         String msg = in.readUTF();
+                        // в этом месте будем читать список пользователей
+                        if (msg.startsWith("/userlist ")) {
+                            setUserlist(msg);
+                            msg = "";
+                        }
                         if (msg.equals("/end")) {
                             break;
                         }
-                        callOnMsgReceived.callback(msg);
+                        if (msg != ""){
+                            callOnMsgReceived.callback(msg);
+                        }
                     }
                 } catch (IOException e) {
                     callOnException.callback("Соединение с сервером разорвано");

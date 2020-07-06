@@ -10,10 +10,26 @@ public class MyServer {
     private final int PORT = 8189;
 
     private Map<String, ClientHandler> clients;
+    private String nicklist;
     private AuthService authService;
 
     public AuthService getAuthService() {
         return authService;
+    }
+
+    public String getNicklist() {
+        return nicklist;
+    }
+
+    public void updateNickList() {
+        try {
+            nicklist = "";
+            for (String key : clients.keySet()) {
+                nicklist += key + " ";
+            }
+        } catch (NullPointerException e) {
+            //e.printStackTrace();
+        }
     }
 
     public MyServer() {
@@ -47,16 +63,28 @@ public class MyServer {
         }
     }
 
+    // метод разошлёт обновлённый список пользователей;
+    public void sendUserList() {
+        broadcastMsg("/userlist " + getNicklist());
+    }
+
     public synchronized void broadcastMsg(String from, String msg) {
         broadcastMsg(formatMessage(from, msg));
     }
 
+    public synchronized void broadcastMsgPrivate(String from, String to, String msg) {
+        String str = "private from " + from + ": " + msg;
+        clients.get(to).sendMsg(str);
+    }
+
     public synchronized void unsubscribe(ClientHandler o) {
         clients.remove(o.getName());
+        updateNickList();
     }
 
     public synchronized void subscribe(ClientHandler o) {
         clients.put(o.getName(), o);
+        updateNickList();
     }
 
     private String formatMessage(String from, String msg) {

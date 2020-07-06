@@ -26,7 +26,7 @@ public class Controller implements Initializable {
     @FXML
     ListView<String> clientsList;
 
-    private Network network;
+    private static Network network;
     private String nickname;
 
     public void setAuthenticated(boolean authenticated) {
@@ -47,6 +47,21 @@ public class Controller implements Initializable {
         clientsList.setOnMouseClicked(this::clientClickHandler);
         createNetwork();
         network.connect();
+        updateClientsList();
+    }
+
+    // авто- обновление онлайн списка контактов в чате
+    public void updateClientsList() {
+        new Thread(()->{
+            while (true) {
+                clientsList.setItems(network.getUserList());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    //e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public void sendAuth() {
@@ -76,9 +91,7 @@ public class Controller implements Initializable {
     public void createNetwork() {
         network = new Network();
         network.setCallOnException(args -> showAlert(args[0].toString()));
-
         network.setCallOnCloseConnection(args -> setAuthenticated(false));
-
         network.setCallOnAuthenticated(args -> {
             setAuthenticated(true);
             nickname = args[0].toString();
